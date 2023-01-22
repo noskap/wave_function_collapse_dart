@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:image/image.dart' as img;
+import 'package:image/image.dart';
 
 extension Helper on List<double> {
   int Random(double r) {
@@ -23,20 +24,20 @@ extension Helper on List<double> {
 
 class BitmapHelper {
   static List LoadBitmap(String filename) {
-    final File file = File('samples.xml');
+    final File file = File(filename);
     Uint8List values = file.readAsBytesSync();
     img.Image? photo = img.decodeImage(values);
     int width = photo?.width ?? 0;
     int height = photo?.height ?? 0;
-    int result = width * height;
+    List<int> result =file.readAsBytesSync().buffer.asUint8List();
 // photo.CopyPixelDataTo(MemoryMarshal.Cast<int, Bgra32>(result));
     return [result, width, height];
   }
 
-  static void SaveBitmap(List<int> data, int width, int height, String filename) {
+  static void SaveBitmap(List<int> data, double width, double height, String filename) {
     // using var image = Image.WrapMemory<Bgra32>(pData, width, height);
     // image.SaveAsPng(filename);
-    var file = File(filename);
+    File file = File(filename);
     file.writeAsBytesSync(data);
   }
 }
